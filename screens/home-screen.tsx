@@ -7,10 +7,10 @@ const HomeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark'
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? Colors.darker : 'white',
   }
   return (
-    <View>
+    <View style={{ backgroundColor: 'white' }}>
       <AppHeader isDarkMode={isDarkMode} label="Checklists" />
       <WeekSwiperComponent />
       <ScrollView

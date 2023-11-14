@@ -32,7 +32,6 @@ const AppHeader = ({
 }) => {
   const [text, setText] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
-  const { selectedWeek } = useContext(Store)
   const openModal = useCallback(() => {
     setModalVisible(true)
   }, [])

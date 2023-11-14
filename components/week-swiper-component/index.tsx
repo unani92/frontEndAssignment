@@ -1,23 +1,24 @@
-import React from 'react'
-import { StyleSheet, View, Dimensions, Text, Pressable } from 'react-native'
+import React, { useContext } from 'react'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
   useAnimatedGestureHandler,
-  useDerivedValue,
 } from 'react-native-reanimated'
-import {
-  PanGestureHandler,
-  TapGestureHandler,
-} from 'react-native-gesture-handler'
+import { PanGestureHandler } from 'react-native-gesture-handler'
+import { Store } from '../../lib/context/store'
 
-const { width } = Dimensions.get('window')
-const ITEM_WIDTH = width / 2
-const ITEM_HEIGHT = 200
-
+const ITEM_WIDTH = 50
+const ITEM_MARGIN = 15
+const MAX_WEEK = 45
+const FIRST_WEEK_TRANSLATE_X =
+  (MAX_WEEK * ITEM_WIDTH + (MAX_WEEK - 1) * ITEM_MARGIN - ITEM_WIDTH) / 2
 const WeekCarouselComponent = () => {
-  const translateX = useSharedValue(0)
+  const { selectedWeek, setSelectedWeek } = useContext(Store)
+  const translateX = useSharedValue(
+    FIRST_WEEK_TRANSLATE_X - 14 * (ITEM_WIDTH + ITEM_MARGIN),
+  )
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart: (_, context) => {
@@ -37,28 +38,30 @@ const WeekCarouselComponent = () => {
     }
   })
 
-  const onCenterButtonClick = () => {
-    // 클릭한 View를 화면 정중앙으로 이동
-    translateX.value = withSpring(-1 * ITEM_WIDTH, { velocity: 500 })
+  const onItemPress = (index: number) => {
+    const value = FIRST_WEEK_TRANSLATE_X - index * (ITEM_WIDTH + ITEM_MARGIN)
+    translateX.value = withSpring(value)
+    setSelectedWeek(index + 1)
   }
 
   return (
     <View style={styles.container}>
-      <TapGestureHandler onHandlerStateChange={onCenterButtonClick}>
-        <Animated.View style={styles.centerButton}>
-          <Text style={styles.centerButtonText}>Center</Text>
-        </Animated.View>
-      </TapGestureHandler>
       <PanGestureHandler
         onGestureEvent={gestureHandler}
         onHandlerStateChange={gestureHandler}>
         <Animated.View style={[styles.carousel, animatedStyle]}>
-          {Array.from({ length: 10 }, () => 0).map((_, idx) => (
-            <Pressable key={idx} onPress={event => console.log(event)}>
-              <View style={[styles.item, { backgroundColor: '#3498db' }]}>
-                {/* Content for slide 1 */}
+          {Array.from({ length: MAX_WEEK }, () => 0).map((_, idx) => (
+            <TouchableOpacity key={idx} onPress={() => onItemPress(idx)}>
+              <View style={[styles.item]}>
+                <View>
+                  <Text style={{ color: 'white', fontSize: 11 }}>Week</Text>
+                </View>
+                <Text
+                  style={{ color: 'white', fontSize: 18, fontWeight: '700' }}>
+                  {idx + 1}
+                </Text>
               </View>
-            </Pressable>
+            </TouchableOpacity>
           ))}
         </Animated.View>
       </PanGestureHandler>
@@ -68,30 +71,25 @@ const WeekCarouselComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 16,
   },
   carousel: {
     flexDirection: 'row',
   },
   item: {
-    width: ITEM_WIDTH,
-    height: ITEM_HEIGHT,
-    marginRight: 10,
+    width: 50,
+    height: 62,
+    marginHorizontal: 7.5,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#44CEC6',
+    borderRadius: 20,
   },
-  centerButton: {
-    position: 'absolute',
-    bottom: 20,
-    backgroundColor: 'blue',
-    padding: 10,
-    borderRadius: 10,
-  },
-  centerButtonText: {
+  itemText: {
     color: 'white',
-    fontWeight: 'bold',
   },
 })
 
