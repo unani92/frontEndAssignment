@@ -1,13 +1,7 @@
 import { ScrollView, View, Text, useColorScheme } from 'react-native'
 import AppHeader from '../components/app-header'
-import Section from '../components/elements/section'
-import { globalStyle } from '../lib/styles'
-import {
-  Colors,
-  DebugInstructions,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
+import WeekSwiperComponent from '../components/week-swiper-component'
 
 const HomeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark'
@@ -18,29 +12,10 @@ const HomeScreen = () => {
   return (
     <View>
       <AppHeader isDarkMode={isDarkMode} label="Checklists" />
+      <WeekSwiperComponent />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={globalStyle.highlight}>App.tsx</Text> to change
-            this screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+        style={backgroundStyle}></ScrollView>
     </View>
   )
 }
