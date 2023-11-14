@@ -25,10 +25,17 @@ const WeekCarouselComponent = () => {
       context.startX = translateX.value
     },
     onActive: (event, context) => {
-      translateX.value = context.startX + event.translationX
+      translateX.value = withSpring(context.startX + event.translationX)
     },
     onEnd: (event, context) => {
-      translateX.value = context.startX + event.translationX
+      const value = context.startX + event.translationX
+      translateX.value = withSpring(
+        value > FIRST_WEEK_TRANSLATE_X
+          ? FIRST_WEEK_TRANSLATE_X
+          : value < -FIRST_WEEK_TRANSLATE_X
+          ? -FIRST_WEEK_TRANSLATE_X
+          : value,
+      )
     },
   })
 
