@@ -44,6 +44,7 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      <AppHeader isDarkMode={isDarkMode} label="Checklists" />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
@@ -51,7 +52,6 @@ function App(): JSX.Element {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <AppHeader label="Checklists" />
           <Section title="Step One">
             Edit <Text style={globalStyle.highlight}>App.tsx</Text> to change
             this screen and then come back to see your edits.
