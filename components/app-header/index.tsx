@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { flexShortcuts } from '../../lib/styles'
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import ModalInput from '../elements/modal-input'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { Store } from '../../lib/context/store'
 
 const appHeaderStyle = StyleSheet.create({
   container: {
@@ -31,6 +32,7 @@ const AppHeader = ({
 }) => {
   const [text, setText] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
+  const { selectedWeek } = useContext(Store)
   const openModal = useCallback(() => {
     setModalVisible(true)
   }, [])

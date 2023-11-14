@@ -26,6 +26,10 @@ import {
 import { globalStyle } from './lib/styles'
 import Section from './components/elements/section'
 import AppHeader from './components/app-header'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import HomeScreen from './screens/home-screen'
+import StoreProvider from './lib/context/store'
 
 type SectionProps = PropsWithChildren<{
   title: string
@@ -37,38 +41,24 @@ function App(): JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   }
-
+  const Stack = createStackNavigator()
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <AppHeader isDarkMode={isDarkMode} label="Checklists" />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+    <NavigationContainer>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+      </SafeAreaView>
+      <StoreProvider>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
           }}>
-          <Section title="Step One">
-            Edit <Text style={globalStyle.highlight}>App.tsx</Text> to change
-            this screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+      </StoreProvider>
+    </NavigationContainer>
   )
 }
 
