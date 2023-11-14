@@ -1,39 +1,10 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react'
-import type { PropsWithChildren } from 'react'
-import {
-  Modal,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native'
-
-import {
-  Colors,
-  DebugInstructions,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen'
-import { globalStyle } from './lib/styles'
-import Section from './components/elements/section'
-import AppHeader from './components/app-header'
+import { SafeAreaView, StatusBar, useColorScheme } from 'react-native'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from './screens/home-screen'
 import StoreProvider from './lib/context/store'
-
-type SectionProps = PropsWithChildren<{
-  title: string
-}>
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark'
