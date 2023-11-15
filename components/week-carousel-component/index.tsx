@@ -39,7 +39,7 @@ const WeekCarouselComponent = () => {
         itemHeight={ITEM_HEIGHT}
         itemMargin={ITEM_MARGIN}
         itemBgColor={'#44CEC6'}
-        onClickItem={idx => setSelectedWeek(idx + 1)}
+        onClickItem={idx => setSelectedWeek(idx)}
         itemLen={MAX_WEEK}
         defaultItemIdx={selectedWeek}
         itemComponent={({ idx, selected }) => WeekItem({ idx, selected })}
@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 16,
+    paddingBottom: 16,
+    borderBottomColor: '#F6F5F8',
+    borderBottomWidth: 1,
   },
   item: {
     width: 50,

@@ -8,6 +8,7 @@ import { useQuery } from 'react-query'
 import HomeService from '../lib/api/homescreen'
 import { Store } from '../lib/context/store'
 import { MAX_WEEK } from '../lib/constants'
+import Progressbar from '../components/progressbar'
 
 const ScreenHeight = Dimensions.get('window').height
 const HomeScreen = () => {
@@ -51,6 +52,7 @@ const HomeScreen = () => {
     <View style={{ backgroundColor: 'white', height: ScreenHeight }}>
       <AppHeader isDarkMode={isDarkMode} label="Checklists" />
       <WeekCarouselComponent />
+      <Progressbar />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}></ScrollView>
