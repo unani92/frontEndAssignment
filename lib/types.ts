@@ -4,12 +4,12 @@ export type CheckListData = {
 }
 
 export type CheckList = {
-  id: string
-  data: CheckList
+  id: number
+  data: CheckListData
   checked: boolean
 }
 
 export type CheckListGroupByWeek = {
-  weekNumber: string
+  weekNumber: number
   checkLists: CheckList[]
 }

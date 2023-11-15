@@ -2,11 +2,11 @@ import React, { useContext } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Store } from '../../lib/context/store'
 import Carousel from '../elements/carousel'
+import { MAX_WEEK } from '../../lib/constants'
 
 const ITEM_WIDTH = 50
 const ITEM_HEIGHT = 62
 const ITEM_MARGIN = 15
-const MAX_WEEK = 45
 
 const WeekItem = ({ idx, selected }: { idx: number; selected?: boolean }) => {
   return (
