@@ -1,7 +1,7 @@
 import { ScrollView, View, useColorScheme, Dimensions } from 'react-native'
 import AppHeader from '../components/app-header'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
-import WeekSwiperComponent from '../components/week-swiper-component'
+import WeekCarouselComponent from '../components/week-carousel-component'
 import { useContext, useEffect, useState } from 'react'
 import { CheckList, CheckListData, CheckListGroupByWeek } from '../lib/types'
 import { useQuery } from 'react-query'
@@ -50,7 +50,7 @@ const HomeScreen = () => {
   return (
     <View style={{ backgroundColor: 'white', height: ScreenHeight }}>
       <AppHeader isDarkMode={isDarkMode} label="Checklists" />
-      <WeekSwiperComponent />
+      <WeekCarouselComponent />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}></ScrollView>
