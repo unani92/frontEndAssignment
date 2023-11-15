@@ -2,6 +2,7 @@ import { StyleSheet, View, Text } from 'react-native'
 import { flexShortcuts } from '../../lib/styles'
 import { useContext, useMemo } from 'react'
 import { Store } from '../../lib/context/store'
+import ProgressbarComponent from '../elements/progressbar'
 
 const progressbarStyle = StyleSheet.create({
   container: {
@@ -56,6 +57,10 @@ const Progressbar = () => {
           {progressbarValue.percentage}%
         </Text>
       </View>
+      <ProgressbarComponent
+        checkedCount={progressbarValue.checkedCount}
+        checkListCount={progressbarValue.checkListCount}
+      />
     </View>
   )
 }

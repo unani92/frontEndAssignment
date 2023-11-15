@@ -36,7 +36,7 @@ const HomeScreen = () => {
       const data = res.data as CheckListData[]
       const checkLists: CheckList[] = data.map((data, idx) => ({
         id: idx + 1,
-        checked: false,
+        checked: Math.random() > 0.5 ? false : true,
         data,
       }))
       checkLists.forEach(checkList => {
