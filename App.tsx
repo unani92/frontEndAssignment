@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from './screens/home-screen'
 import StoreProvider from './lib/context/store'
+import ReactQueryProvider from './lib/context/react-query-store'
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark'
@@ -21,14 +22,16 @@ function App(): JSX.Element {
           backgroundColor={backgroundStyle.backgroundColor}
         />
       </SafeAreaView>
-      <StoreProvider>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="Home" component={HomeScreen} />
-        </Stack.Navigator>
-      </StoreProvider>
+      <ReactQueryProvider>
+        <StoreProvider>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+          </Stack.Navigator>
+        </StoreProvider>
+      </ReactQueryProvider>
     </NavigationContainer>
   )
 }
