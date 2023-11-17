@@ -6,7 +6,7 @@ import { CheckList } from '../../lib/types'
 
 const checklistContentsStyle = StyleSheet.create({
   container: {
-    paddingTop: 28,
+    paddingVertical: 28,
     paddingHorizontal: 20,
   },
 })
