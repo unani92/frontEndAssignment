@@ -9,6 +9,7 @@ import HomeService from '../lib/api/homescreen'
 import { Store } from '../lib/context/store'
 import { MAX_WEEK } from '../lib/constants'
 import Progressbar from '../components/progressbar'
+import CheckListContents from '../components/checklist-contents'
 
 const ScreenHeight = Dimensions.get('window').height
 const HomeScreen = () => {
@@ -55,7 +56,9 @@ const HomeScreen = () => {
       <Progressbar />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}></ScrollView>
+        style={backgroundStyle}>
+        <CheckListContents />
+      </ScrollView>
     </View>
   )
 }
