@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Pressable } from 'react-native'
 import { CheckList } from '../../lib/types'
 import SvgUri from 'react-native-svg-uri'
 
@@ -26,16 +26,24 @@ const itemStyles = StyleSheet.create({
   },
 })
 
-const ChecklistItem = ({ checklistItem }: { checklistItem: CheckList }) => {
+const ChecklistItem = ({
+  checklistItem,
+  onPressCheck,
+}: {
+  checklistItem: CheckList
+  onPressCheck: (item: CheckList) => void
+}) => {
   return (
     <View style={[itemStyles.container]}>
-      <View style={{ width: 24, height: 24 }}>
+      <Pressable
+        onPress={() => onPressCheck(checklistItem)}
+        style={{ width: 24, height: 24 }}>
         {checklistItem.checked ? (
           <SvgUri source={require('../../public/icon/checked.svg')} />
         ) : (
           <SvgUri source={require('../../public/icon/unChecked.svg')} />
         )}
-      </View>
+      </Pressable>
       <View style={{ maxWidth: '90%' }}>
         <Text
           style={
