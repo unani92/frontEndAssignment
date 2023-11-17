@@ -11,7 +11,7 @@ import { MAX_WEEK } from '../lib/constants'
 import Progressbar from '../components/progressbar'
 import CheckListContents from '../components/checklist-contents'
 
-const ScreenHeight = Dimensions.get('window').height
+const WindowHeight = Dimensions.get('window').height
 const HomeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark'
   const backgroundStyle = {
@@ -50,7 +50,7 @@ const HomeScreen = () => {
   }, [res])
 
   return (
-    <View style={{ backgroundColor: 'white', height: ScreenHeight }}>
+    <View style={{ backgroundColor: 'white', height: WindowHeight }}>
       <AppHeader isDarkMode={isDarkMode} label="Checklists" />
       <WeekCarouselComponent />
       <Progressbar />

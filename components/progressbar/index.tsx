@@ -47,7 +47,11 @@ const Progressbar = () => {
     }
   }, [checkListsSelectedWeek])
   return (
-    <View style={[progressbarStyle.container]}>
+    <View
+      style={[
+        progressbarStyle.container,
+        { display: progressbarValue.checkListCount > 0 ? undefined : 'none' },
+      ]}>
       <View style={[flexShortcuts.justifyBetween]}>
         <Text style={[progressbarStyle.text]}>
           {progressbarValue.checkedCount} of {progressbarValue.checkListCount}{' '}

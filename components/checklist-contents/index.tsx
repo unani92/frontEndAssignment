@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import { Store } from '../../lib/context/store'
 import ChecklistItem from './checklist-item'
 import { CheckList, CheckListGroupByWeek } from '../../lib/types'
+import NoChecklist from './no-checklist'
 
 const checklistContentsStyle = StyleSheet.create({
   container: {
@@ -43,7 +44,7 @@ const CheckListContents = () => {
           />
         ))
       ) : (
-        <View />
+        <NoChecklist />
       )}
     </View>
   )
