@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { flexShortcuts } from '../../lib/styles'
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useContext } from 'react'
 import ModalInput from '../elements/modal-input'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Store } from '../../lib/context/store'
@@ -54,13 +54,21 @@ const AppHeader = ({
         appHeaderStyle.container,
         { backgroundColor: isDarkMode ? Colors.darker : 'white' },
       ]}>
-      <View style={[{ width: 47 }]}></View>
+      <View style={[{ width: 40 }]}></View>
       <Text style={[appHeaderStyle.title]}>{label}</Text>
-      <Button
+      <Pressable
         onPress={() => onPress(checklistMode)}
-        color="#333"
-        title="Edit"
-      />
+        style={{
+          width: 40,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text>
+          {checklistMode === ChecklistsMode.ModeCheck ? 'Edit' : 'Done'}
+        </Text>
+      </Pressable>
       {/* <ModalInput
         value={text}
         open={modalVisible}

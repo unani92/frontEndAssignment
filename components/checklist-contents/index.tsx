@@ -2,8 +2,14 @@ import { useContext, useMemo } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Store } from '../../lib/context/store'
 import ChecklistItem from './checklist-item'
-import { CheckList, CheckListGroupByWeek } from '../../lib/types'
+import {
+  CheckList,
+  CheckListGroupByWeek,
+  ChecklistsMode,
+} from '../../lib/types'
 import NoChecklist from './no-checklist'
+import SvgUri from 'react-native-svg-uri'
+import { flexShortcuts } from '../../lib/styles'
 
 const checklistContentsStyle = StyleSheet.create({
   container: {
@@ -18,6 +24,7 @@ const CheckListContents = () => {
     selectedWeek,
     setCheckListGroupByWeeks,
     setSnackbarActivation,
+    setChecklistMode,
   } = useContext(Store)
   const checklists = useMemo(() => {
     return selectedWeek && checkListGroupByWeeks[selectedWeek - 1]
@@ -37,10 +44,15 @@ const CheckListContents = () => {
     newCheckListGroupByWeeks[(selectedWeek || 0) - 1] = newCheckListGroupByWeek
     setCheckListGroupByWeeks(newCheckListGroupByWeeks)
   }
-  const onPressDelete = (checkList: CheckList, idx: number) => {
-    const actionLabel = () => <Text style={{ color: 'red' }}>undo</Text>
-    const checkListIdxForBackup = [...checklists].findIndex(
-      item => item.id == checkList.id,
+  const onPressDelete = (
+    checkList: CheckList,
+    checkListIdxForBackup: number,
+  ) => {
+    const actionLabel = () => (
+      <View style={[flexShortcuts.flexCenter, { gap: 4 }]}>
+        <SvgUri source={require('../../public/icon/undo.svg')} />
+        <Text style={{ color: '#44CEC6' }}>undo</Text>
+      </View>
     )
     const newCheckListGroupByWeek: CheckListGroupByWeek = {
       weekNumber: selectedWeek as number,
@@ -51,6 +63,7 @@ const CheckListContents = () => {
       newCheckListGroupByWeeks[(selectedWeek || 0) - 1] =
         newCheckListGroupByWeek
       setCheckListGroupByWeeks(newCheckListGroupByWeeks)
+      setChecklistMode(ChecklistsMode.ModeCheck)
     }, 250)
     setSnackbarActivation({
       label: 'Checklist deleted',
