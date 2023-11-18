@@ -79,7 +79,7 @@ const ModalInput = ({
                 paddingVertical: 10,
                 paddingHorizontal: 16,
               }}
-              onSubmitEditing={() => console.log('submit?')}
+              onSubmitEditing={() => onSubmitText(_text)}
               showSoftInputOnFocus={true}
               value={_text}
               onChangeText={setText}

@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { flexShortcuts } from '../../lib/styles'
 import { useCallback, useContext } from 'react'
-import ModalInput from '../elements/modal-input'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Store } from '../../lib/context/store'
 import { ChecklistsMode } from '../../lib/types'

@@ -8,6 +8,7 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated'
+import ItemText from './item-text'
 
 const itemStyles = StyleSheet.create({
   container: {
@@ -66,14 +67,10 @@ const ChecklistItem = ({
             )}
           </Pressable>
         )}
-        <View style={{ maxWidth: '90%' }}>
-          <Text
-            style={
-              checklistItem.checked ? itemStyles.checked : itemStyles.unChecked
-            }>
-            {checklistItem.data.content}
-          </Text>
-        </View>
+        <ItemText
+          isChecked={checklistItem.checked}
+          content={checklistItem.data.content}
+        />
       </View>
       {checklistMode === ChecklistsMode.ModeEdit && (
         <Pressable
