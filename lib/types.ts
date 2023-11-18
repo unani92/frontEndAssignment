@@ -13,3 +13,8 @@ export type CheckListGroupByWeek = {
   weekNumber: number
   checkLists: CheckList[]
 }
+
+export enum ChecklistsMode {
+  ModeEdit = 'MODE_EDIT',
+  ModeCheck = 'MODE_CHECK',
+}
