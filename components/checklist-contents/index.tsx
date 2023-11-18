@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Text } from 'react-native'
 import { Store } from '../../lib/context/store'
 import ChecklistItem from './checklist-item'
 import { CheckList, CheckListGroupByWeek } from '../../lib/types'
@@ -13,8 +13,12 @@ const checklistContentsStyle = StyleSheet.create({
 })
 
 const CheckListContents = () => {
-  const { checkListGroupByWeeks, selectedWeek, setCheckListGroupByWeeks } =
-    useContext(Store)
+  const {
+    checkListGroupByWeeks,
+    selectedWeek,
+    setCheckListGroupByWeeks,
+    setSnackbarActivation,
+  } = useContext(Store)
   const checklists = useMemo(() => {
     return selectedWeek && checkListGroupByWeeks[selectedWeek - 1]
       ? checkListGroupByWeeks[selectedWeek - 1].checkLists
@@ -34,13 +38,37 @@ const CheckListContents = () => {
     setCheckListGroupByWeeks(newCheckListGroupByWeeks)
   }
   const onPressDelete = (checkList: CheckList, idx: number) => {
+    const actionLabel = () => <Text style={{ color: 'red' }}>undo</Text>
+    const checkListIdxForBackup = [...checklists].findIndex(
+      item => item.id == checkList.id,
+    )
     const newCheckListGroupByWeek: CheckListGroupByWeek = {
       weekNumber: selectedWeek as number,
       checkLists: [...checklists].filter(item => item.id !== checkList.id),
     }
-    const newCheckListGroupByWeeks = [...checkListGroupByWeeks]
-    newCheckListGroupByWeeks[(selectedWeek || 0) - 1] = newCheckListGroupByWeek
-    setCheckListGroupByWeeks(newCheckListGroupByWeeks)
+    setTimeout(() => {
+      const newCheckListGroupByWeeks = [...checkListGroupByWeeks]
+      newCheckListGroupByWeeks[(selectedWeek || 0) - 1] =
+        newCheckListGroupByWeek
+      setCheckListGroupByWeeks(newCheckListGroupByWeeks)
+    }, 250)
+    setSnackbarActivation({
+      label: 'Checklist deleted',
+      action: {
+        label: actionLabel(),
+        onPress: () => {
+          newCheckListGroupByWeek.checkLists.splice(
+            checkListIdxForBackup,
+            0,
+            checkList,
+          )
+          const newCheckListGroupByWeeks = [...checkListGroupByWeeks]
+          newCheckListGroupByWeeks[(selectedWeek || 0) - 1] =
+            newCheckListGroupByWeek
+          setCheckListGroupByWeeks(newCheckListGroupByWeeks)
+        },
+      },
+    })
   }
   return (
     <View style={[checklistContentsStyle.container]}>

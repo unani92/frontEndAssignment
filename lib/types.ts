@@ -18,3 +18,12 @@ export enum ChecklistsMode {
   ModeEdit = 'MODE_EDIT',
   ModeCheck = 'MODE_CHECK',
 }
+
+export type SnackbarActivation = {
+  onDismiss?: () => void
+  action: {
+    label: JSX.Element | string
+    onPress: () => void
+  }
+  label: JSX.Element | string
+}

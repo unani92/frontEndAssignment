@@ -10,6 +10,7 @@ import { Store } from '../lib/context/store'
 import { MAX_WEEK } from '../lib/constants'
 import Progressbar from '../components/progressbar'
 import CheckListContents from '../components/checklist-contents'
+import Snackbar from '../components/elements/snackbar'
 
 const WindowHeight = Dimensions.get('window').height
 const HomeScreen = () => {
@@ -17,7 +18,8 @@ const HomeScreen = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : 'white',
   }
-  const { setCheckListGroupByWeeks } = useContext(Store)
+  const { setCheckListGroupByWeeks, checklistMode, setChecklistMode } =
+    useContext(Store)
   const {
     data: res,
     isLoading,
@@ -59,6 +61,7 @@ const HomeScreen = () => {
         style={backgroundStyle}>
         <CheckListContents />
       </ScrollView>
+      <Snackbar />
     </View>
   )
 }

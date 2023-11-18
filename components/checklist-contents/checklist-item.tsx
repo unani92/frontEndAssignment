@@ -3,6 +3,11 @@ import { CheckList, ChecklistsMode } from '../../lib/types'
 import SvgUri from 'react-native-svg-uri'
 import { useContext } from 'react'
 import { Store } from '../../lib/context/store'
+import Animated, {
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from 'react-native-reanimated'
 
 const itemStyles = StyleSheet.create({
   container: {
@@ -37,9 +42,18 @@ const ChecklistItem = ({
   onPressCheck: (item: CheckList) => void
   onPressDelete: (item: CheckList) => void
 }) => {
-  const { checklistMode } = useContext(Store)
+  const { checklistMode, snackBarActivation } = useContext(Store)
+  const opacity = useSharedValue(1)
+  const _onPressDelete = (item: CheckList) => {
+    opacity.value = withDelay(0, withTiming(0, { duration: 250 }))
+    onPressDelete(item)
+  }
   return (
-    <View style={[itemStyles.container]}>
+    <Animated.View
+      style={[
+        itemStyles.container,
+        { display: opacity.value === 1 ? undefined : 'none', opacity },
+      ]}>
       <View style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
         {checklistMode === ChecklistsMode.ModeCheck && (
           <Pressable
@@ -63,12 +77,12 @@ const ChecklistItem = ({
       </View>
       {checklistMode === ChecklistsMode.ModeEdit && (
         <Pressable
-          onPress={() => onPressDelete(checklistItem)}
+          onPress={() => !snackBarActivation && _onPressDelete(checklistItem)}
           style={{ width: 24, height: 24 }}>
           <SvgUri source={require('../../public/icon/delete.svg')} />
         </Pressable>
       )}
-    </View>
+    </Animated.View>
   )
 }
 

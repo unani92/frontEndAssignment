@@ -45,7 +45,7 @@ const Progressbar = () => {
         ? parseInt(String((checkedCount / checkListCount) * 100))
         : 0,
     }
-  }, [checkListsSelectedWeek])
+  }, [checkListsSelectedWeek, checkListGroupByWeeks])
   return (
     <View
       style={[
