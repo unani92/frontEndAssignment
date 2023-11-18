@@ -33,6 +33,15 @@ const CheckListContents = () => {
     newCheckListGroupByWeeks[(selectedWeek || 0) - 1] = newCheckListGroupByWeek
     setCheckListGroupByWeeks(newCheckListGroupByWeeks)
   }
+  const onPressDelete = (checkList: CheckList, idx: number) => {
+    const newCheckListGroupByWeek: CheckListGroupByWeek = {
+      weekNumber: selectedWeek as number,
+      checkLists: [...checklists].filter(item => item.id !== checkList.id),
+    }
+    const newCheckListGroupByWeeks = [...checkListGroupByWeeks]
+    newCheckListGroupByWeeks[(selectedWeek || 0) - 1] = newCheckListGroupByWeek
+    setCheckListGroupByWeeks(newCheckListGroupByWeeks)
+  }
   return (
     <View style={[checklistContentsStyle.container]}>
       {checklists.length > 0 ? (
@@ -41,6 +50,7 @@ const CheckListContents = () => {
             onPressCheck={item => onPressClick(item, idx)}
             key={`checklist-${checklist.id}`}
             checklistItem={checklist}
+            onPressDelete={item => onPressDelete(item, idx)}
           />
         ))
       ) : (

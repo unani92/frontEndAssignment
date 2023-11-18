@@ -4,6 +4,7 @@ import { useCallback, useContext, useState } from 'react'
 import ModalInput from '../elements/modal-input'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { Store } from '../../lib/context/store'
+import { ChecklistsMode } from '../../lib/types'
 
 const appHeaderStyle = StyleSheet.create({
   container: {
@@ -30,13 +31,21 @@ const AppHeader = ({
   isDarkMode: boolean
   label: string
 }) => {
-  const [text, setText] = useState('')
-  const [modalVisible, setModalVisible] = useState(false)
-  const openModal = useCallback(() => {
-    setModalVisible(true)
-  }, [])
-  const closeModal = useCallback(() => {
-    setModalVisible(false)
+  const { checklistMode, setChecklistMode } = useContext(Store)
+  // const [text, setText] = useState('')
+  // const [modalVisible, setModalVisible] = useState(false)
+  // const openModal = useCallback(() => {
+  //   setModalVisible(true)
+  // }, [])
+  // const closeModal = useCallback(() => {
+  //   setModalVisible(false)
+  // }, [])
+  const onPress = useCallback((mode: ChecklistsMode) => {
+    setChecklistMode(
+      mode === ChecklistsMode.ModeCheck
+        ? ChecklistsMode.ModeEdit
+        : ChecklistsMode.ModeCheck,
+    )
   }, [])
   return (
     <View
@@ -47,8 +56,12 @@ const AppHeader = ({
       ]}>
       <View style={[{ width: 47 }]}></View>
       <Text style={[appHeaderStyle.title]}>{label}</Text>
-      <Button onPress={openModal} color="#333" title="Edit" />
-      <ModalInput
+      <Button
+        onPress={() => onPress(checklistMode)}
+        color="#333"
+        title="Edit"
+      />
+      {/* <ModalInput
         value={text}
         open={modalVisible}
         closeModal={closeModal}
@@ -56,7 +69,7 @@ const AppHeader = ({
           setText(text)
           closeModal()
         }}
-      />
+      /> */}
     </View>
   )
 }

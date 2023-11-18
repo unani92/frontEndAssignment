@@ -1,12 +1,14 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native'
-import { CheckList } from '../../lib/types'
+import { CheckList, ChecklistsMode } from '../../lib/types'
 import SvgUri from 'react-native-svg-uri'
+import { useContext } from 'react'
+import { Store } from '../../lib/context/store'
 
 const itemStyles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 12,
+    justifyContent: 'space-between',
     marginBottom: 24,
   },
   checked: {
@@ -29,29 +31,43 @@ const itemStyles = StyleSheet.create({
 const ChecklistItem = ({
   checklistItem,
   onPressCheck,
+  onPressDelete,
 }: {
   checklistItem: CheckList
   onPressCheck: (item: CheckList) => void
+  onPressDelete: (item: CheckList) => void
 }) => {
+  const { checklistMode } = useContext(Store)
   return (
     <View style={[itemStyles.container]}>
-      <Pressable
-        onPress={() => onPressCheck(checklistItem)}
-        style={{ width: 24, height: 24 }}>
-        {checklistItem.checked ? (
-          <SvgUri source={require('../../public/icon/checked.svg')} />
-        ) : (
-          <SvgUri source={require('../../public/icon/unChecked.svg')} />
+      <View style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
+        {checklistMode === ChecklistsMode.ModeCheck && (
+          <Pressable
+            onPress={() => onPressCheck(checklistItem)}
+            style={{ width: 24, height: 24 }}>
+            {checklistItem.checked ? (
+              <SvgUri source={require('../../public/icon/checked.svg')} />
+            ) : (
+              <SvgUri source={require('../../public/icon/unChecked.svg')} />
+            )}
+          </Pressable>
         )}
-      </Pressable>
-      <View style={{ maxWidth: '90%' }}>
-        <Text
-          style={
-            checklistItem.checked ? itemStyles.checked : itemStyles.unChecked
-          }>
-          {checklistItem.data.content}
-        </Text>
+        <View style={{ maxWidth: '90%' }}>
+          <Text
+            style={
+              checklistItem.checked ? itemStyles.checked : itemStyles.unChecked
+            }>
+            {checklistItem.data.content}
+          </Text>
+        </View>
       </View>
+      {checklistMode === ChecklistsMode.ModeEdit && (
+        <Pressable
+          onPress={() => onPressDelete(checklistItem)}
+          style={{ width: 24, height: 24 }}>
+          <SvgUri source={require('../../public/icon/delete.svg')} />
+        </Pressable>
+      )}
     </View>
   )
 }
