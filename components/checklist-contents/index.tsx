@@ -83,7 +83,16 @@ const CheckListContents = () => {
       },
     })
   }
-  const onPressEditText = () => {}
+  const onPressEdit = (checklist: CheckList, idx: number) => {
+    const newCheckListGroupByWeek: CheckListGroupByWeek = {
+      weekNumber: selectedWeek as number,
+      checkLists: [...checklists],
+    }
+    newCheckListGroupByWeek.checkLists[idx] = checklist
+    const newCheckListGroupByWeeks = [...checkListGroupByWeeks]
+    newCheckListGroupByWeeks[(selectedWeek || 0) - 1] = newCheckListGroupByWeek
+    setCheckListGroupByWeeks(newCheckListGroupByWeeks)
+  }
   return (
     <View style={[checklistContentsStyle.container]}>
       {checklists.length > 0 ? (
@@ -93,6 +102,7 @@ const CheckListContents = () => {
             checklistItem={checklist}
             onPressCheck={item => onPressCheck(item, idx)}
             onPressDelete={item => onPressDelete(item, idx)}
+            onPressEdit={item => onPressEdit(item, idx)}
           />
         ))
       ) : (

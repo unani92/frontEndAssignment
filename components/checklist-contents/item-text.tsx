@@ -3,7 +3,7 @@ import ModalInput from '../elements/modal-input'
 import { StyleSheet } from 'react-native'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { Store } from '../../lib/context/store'
-import { ChecklistsMode } from '../../lib/types'
+import { CheckList, ChecklistsMode } from '../../lib/types'
 
 const itemTextStyle = StyleSheet.create({
   checked: {
@@ -24,37 +24,45 @@ const itemTextStyle = StyleSheet.create({
 })
 
 const ItemText = ({
-  isChecked,
-  content,
+  checklistItem,
+  onPressEdit,
 }: {
-  isChecked: boolean
-  content: string
+  checklistItem: CheckList
+  onPressEdit: (item: CheckList) => void
 }) => {
   const { checklistMode } = useContext(Store)
   const [modalOpen, setModalOpen] = useState(false)
-  const [text, setText] = useState(content)
+  const [text, setText] = useState(checklistItem.data.content)
   const openModal = useCallback(() => {
     setModalOpen(true)
   }, [])
   const closeModal = useCallback(() => {
     setModalOpen(false)
   }, [])
-  useEffect(() => {
-    if (checklistMode === ChecklistsMode.ModeCheck && content !== text) {
-      console.log('need to saved')
-    }
-  }, [checklistMode])
+  const _onPressEdit = (item: CheckList, text: string) => {
+    setText(text)
+    closeModal()
+    onPressEdit(item)
+  }
   return (
     <View style={{ maxWidth: '90%' }}>
-      {checklistMode === ChecklistsMode.ModeCheck ? (
+      {checklistMode === ChecklistsMode.ModeEdit ? (
         <Text
-          style={isChecked ? itemTextStyle.checked : itemTextStyle.unChecked}>
+          style={
+            checklistItem.checked
+              ? itemTextStyle.checked
+              : itemTextStyle.unChecked
+          }>
           {text}
         </Text>
       ) : (
         <Pressable onPress={openModal}>
           <Text
-            style={isChecked ? itemTextStyle.checked : itemTextStyle.unChecked}>
+            style={
+              checklistItem.checked
+                ? itemTextStyle.checked
+                : itemTextStyle.unChecked
+            }>
             {text}
           </Text>
         </Pressable>
@@ -63,10 +71,15 @@ const ItemText = ({
         value={text}
         open={modalOpen}
         closeModal={closeModal}
-        onSubmitText={text => {
-          setText(text)
-          closeModal()
-        }}
+        onSubmitText={text =>
+          _onPressEdit(
+            {
+              ...checklistItem,
+              data: { ...checklistItem.data, content: text },
+            },
+            text,
+          )
+        }
       />
     </View>
   )

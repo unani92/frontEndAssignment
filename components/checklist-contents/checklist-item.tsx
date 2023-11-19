@@ -39,10 +39,12 @@ const ChecklistItem = ({
   checklistItem,
   onPressCheck,
   onPressDelete,
+  onPressEdit,
 }: {
   checklistItem: CheckList
   onPressCheck: (item: CheckList) => void
   onPressDelete: (item: CheckList) => void
+  onPressEdit: (item: CheckList) => void
 }) => {
   const { checklistMode, snackBarActivation } = useContext(Store)
   const opacity = useSharedValue(0)
@@ -70,8 +72,8 @@ const ChecklistItem = ({
           </Pressable>
         )}
         <ItemText
-          isChecked={checklistItem.checked}
-          content={checklistItem.data.content}
+          onPressEdit={(checklist: CheckList) => onPressEdit(checklist)}
+          checklistItem={checklistItem}
         />
       </View>
       {checklistMode === ChecklistsMode.ModeEdit && (
