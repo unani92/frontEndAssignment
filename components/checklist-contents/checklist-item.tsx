@@ -4,7 +4,6 @@ import SvgUri from 'react-native-svg-uri'
 import { useContext, useEffect } from 'react'
 import { Store } from '../../lib/context/store'
 import Animated, {
-  useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,

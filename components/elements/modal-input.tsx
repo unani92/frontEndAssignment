@@ -26,9 +26,8 @@ export const useModal = ({ defaultText }: { defaultText: string }) => {
   const openModal = useCallback(() => {
     setModalOpen(true)
   }, [])
-  const closeModal = useCallback((rollbackedText: string) => {
-    console.log(rollbackedText)
-    setText(rollbackedText)
+  const closeModal = useCallback((rollbackedText?: string) => {
+    setText(rollbackedText || '')
     setModalOpen(false)
   }, [])
   const saveTextBeforeClose = useCallback((text: string) => {

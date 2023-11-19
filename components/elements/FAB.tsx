@@ -2,18 +2,49 @@ import { useContext } from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import SvgUri from 'react-native-svg-uri'
 import { Store } from '../../lib/context/store'
-import ModalInput from './modal-input'
+import ModalInput, { useModal } from './modal-input'
 
 const FAB = () => {
-  const { checkListGroupByWeeks, selectedWeek } = useContext(Store)
-  const addChecklist = () => {
-    const checklistsGroupByWeek = checkListGroupByWeeks[(selectedWeek || 0) - 1]
-    checklistsGroupByWeek.checkLists
+  const {
+    checkListGroupByWeeks,
+    selectedWeek,
+    lastId,
+    updateLastId,
+    setCheckListGroupByWeeks,
+  } = useContext(Store)
+  const { modalOpen, openModal, closeModal, text, saveTextBeforeClose } =
+    useModal({ defaultText: '' })
+  const addChecklist = (content: string) => {
+    const newCheckListGroupByWeeks = [...checkListGroupByWeeks]
+    const checklistsGroupByWeek =
+      newCheckListGroupByWeeks[(selectedWeek || 0) - 1]
+    checklistsGroupByWeek.checkLists = [
+      {
+        id: lastId + 1,
+        checked: false,
+        data: { weekNumber: selectedWeek as number, content },
+      },
+      ...checklistsGroupByWeek.checkLists,
+    ]
+    updateLastId(lastId + 1)
+    newCheckListGroupByWeeks[(selectedWeek || 0) - 1] = checklistsGroupByWeek
+    setCheckListGroupByWeeks(newCheckListGroupByWeeks)
   }
   return (
-    <Pressable style={fabStyle.fab} onPress={() => addChecklist()}>
-      <SvgUri source={require('../../public/icon/Plus.svg')} />
-    </Pressable>
+    <>
+      <Pressable style={fabStyle.fab} onPress={() => openModal()}>
+        <SvgUri source={require('../../public/icon/Plus.svg')} />
+      </Pressable>
+      <ModalInput
+        open={modalOpen}
+        value={text}
+        closeModal={() => closeModal()}
+        onSubmitText={text => {
+          addChecklist(text)
+          closeModal()
+        }}
+      />
+    </>
   )
 }
 

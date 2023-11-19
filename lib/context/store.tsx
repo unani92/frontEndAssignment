@@ -1,4 +1,4 @@
-import React, { Dispatch, createContext, useState } from 'react'
+import React, { Dispatch, createContext, useCallback, useState } from 'react'
 import {
   CheckListGroupByWeek,
   ChecklistsMode,
@@ -14,6 +14,8 @@ interface CheckListContextType {
   onChangeChecklistMode: (value: ChecklistsMode, handler?: () => {}) => void
   snackBarActivation: SnackbarActivation | undefined
   setSnackbarActivation: Dispatch<SnackbarActivation | undefined>
+  lastId: number
+  updateLastId: (num: number) => void
 }
 
 export const Store = createContext<CheckListContextType>({
@@ -25,6 +27,8 @@ export const Store = createContext<CheckListContextType>({
   onChangeChecklistMode: (value: ChecklistsMode, handler?: () => {}) => {},
   snackBarActivation: undefined,
   setSnackbarActivation: (value: SnackbarActivation | undefined) => {},
+  lastId: 99,
+  updateLastId: (value: number) => {},
 })
 
 const StoreProvider = ({ children }: { children?: React.ReactNode }) => {
@@ -44,6 +48,10 @@ const StoreProvider = ({ children }: { children?: React.ReactNode }) => {
   }
   const [snackBarActivation, setSnackbarActivation] =
     useState<SnackbarActivation>()
+  const [lastId, setLastId] = useState(99)
+  const updateLastId = (lastId: number) => {
+    setLastId(lastId++)
+  }
   return (
     <Store.Provider
       value={{
@@ -55,6 +63,8 @@ const StoreProvider = ({ children }: { children?: React.ReactNode }) => {
         onChangeChecklistMode,
         snackBarActivation,
         setSnackbarActivation,
+        lastId,
+        updateLastId,
       }}>
       {children}
     </Store.Provider>
