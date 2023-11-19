@@ -1,9 +1,10 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native'
 import { CheckList, ChecklistsMode } from '../../lib/types'
 import SvgUri from 'react-native-svg-uri'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { Store } from '../../lib/context/store'
 import Animated, {
+  useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,
@@ -44,17 +45,18 @@ const ChecklistItem = ({
   onPressDelete: (item: CheckList) => void
 }) => {
   const { checklistMode, snackBarActivation } = useContext(Store)
-  const opacity = useSharedValue(1)
+  const opacity = useSharedValue(0)
   const _onPressDelete = (item: CheckList) => {
-    opacity.value = withDelay(0, withTiming(0, { duration: 250 }))
+    opacity.value = withDelay(0, withTiming(0, { duration: 350 }))
     onPressDelete(item)
   }
+  useEffect(() => {
+    if (checklistItem) {
+      opacity.value = withDelay(0, withTiming(1, { duration: 350 }))
+    }
+  }, [checklistItem])
   return (
-    <Animated.View
-      style={[
-        itemStyles.container,
-        { display: opacity.value === 1 ? undefined : 'none', opacity },
-      ]}>
+    <Animated.View style={[itemStyles.container, { opacity }]}>
       <View style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
         {checklistMode === ChecklistsMode.ModeCheck && (
           <Pressable
