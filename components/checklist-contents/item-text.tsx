@@ -41,21 +41,23 @@ const ItemText = ({
     <View style={{ maxWidth: '90%' }}>
       {checklistMode === ChecklistsMode.ModeEdit ? (
         <Text
-          style={
+          style={[
+            { flexShrink: 0 },
             checklistItem.checked
               ? itemTextStyle.checked
-              : itemTextStyle.unChecked
-          }>
+              : itemTextStyle.unChecked,
+          ]}>
           {text}
         </Text>
       ) : (
         <Pressable onPress={openModal}>
           <Text
-            style={
+            style={[
+              { flexShrink: 0 },
               checklistItem.checked
                 ? itemTextStyle.checked
-                : itemTextStyle.unChecked
-            }>
+                : itemTextStyle.unChecked,
+            ]}>
             {text}
           </Text>
         </Pressable>

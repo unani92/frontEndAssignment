@@ -58,7 +58,13 @@ const ChecklistItem = ({
   }, [checklistItem])
   return (
     <Animated.View style={[itemStyles.container, { opacity }]}>
-      <View style={{ display: 'flex', flexDirection: 'row', gap: 12 }}>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 12,
+          minWidth: '80%',
+        }}>
         {checklistMode === ChecklistsMode.ModeCheck && (
           <Pressable
             onPress={() => onPressCheck(checklistItem)}
