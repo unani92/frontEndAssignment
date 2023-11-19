@@ -30,7 +30,7 @@ const AppHeader = ({
   isDarkMode: boolean
   label: string
 }) => {
-  const { checklistMode, setChecklistMode } = useContext(Store)
+  const { checklistMode, onChangeChecklistMode } = useContext(Store)
   // const [text, setText] = useState('')
   // const [modalVisible, setModalVisible] = useState(false)
   // const openModal = useCallback(() => {
@@ -40,7 +40,7 @@ const AppHeader = ({
   //   setModalVisible(false)
   // }, [])
   const onPress = useCallback((mode: ChecklistsMode) => {
-    setChecklistMode(
+    onChangeChecklistMode(
       mode === ChecklistsMode.ModeCheck
         ? ChecklistsMode.ModeEdit
         : ChecklistsMode.ModeCheck,

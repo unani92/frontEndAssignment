@@ -18,8 +18,7 @@ const HomeScreen = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : 'white',
   }
-  const { setCheckListGroupByWeeks, checklistMode, setChecklistMode } =
-    useContext(Store)
+  const { setCheckListGroupByWeeks, checklistMode } = useContext(Store)
   const {
     data: res,
     isLoading,

@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Store } from '../../lib/context/store'
 import ChecklistItem from './checklist-item'
@@ -24,14 +24,14 @@ const CheckListContents = () => {
     selectedWeek,
     setCheckListGroupByWeeks,
     setSnackbarActivation,
-    setChecklistMode,
+    onChangeChecklistMode,
   } = useContext(Store)
   const checklists = useMemo(() => {
     return selectedWeek && checkListGroupByWeeks[selectedWeek - 1]
       ? checkListGroupByWeeks[selectedWeek - 1].checkLists
       : ([] as CheckList[])
   }, [selectedWeek, checkListGroupByWeeks])
-  const onPressClick = (checkList: CheckList, idx: number) => {
+  const onPressCheck = (checkList: CheckList, idx: number) => {
     const newCheckListGroupByWeek: CheckListGroupByWeek = {
       weekNumber: selectedWeek as number,
       checkLists: [...checklists],
@@ -63,7 +63,7 @@ const CheckListContents = () => {
       newCheckListGroupByWeeks[(selectedWeek || 0) - 1] =
         newCheckListGroupByWeek
       setCheckListGroupByWeeks(newCheckListGroupByWeeks)
-      setChecklistMode(ChecklistsMode.ModeCheck)
+      onChangeChecklistMode(ChecklistsMode.ModeCheck)
     }, 250)
     setSnackbarActivation({
       label: 'Checklist deleted',
@@ -83,14 +83,15 @@ const CheckListContents = () => {
       },
     })
   }
+  const onPressEditText = () => {}
   return (
     <View style={[checklistContentsStyle.container]}>
       {checklists.length > 0 ? (
         checklists.map((checklist, idx) => (
           <ChecklistItem
-            onPressCheck={item => onPressClick(item, idx)}
             key={`checklist-${checklist.id}`}
             checklistItem={checklist}
+            onPressCheck={item => onPressCheck(item, idx)}
             onPressDelete={item => onPressDelete(item, idx)}
           />
         ))

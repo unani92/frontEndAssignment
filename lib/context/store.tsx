@@ -11,7 +11,7 @@ interface CheckListContextType {
   checkListGroupByWeeks: CheckListGroupByWeek[]
   setCheckListGroupByWeeks: Dispatch<CheckListGroupByWeek[]>
   checklistMode: ChecklistsMode
-  setChecklistMode: Dispatch<ChecklistsMode>
+  onChangeChecklistMode: (value: ChecklistsMode, handler?: () => {}) => void
   snackBarActivation: SnackbarActivation | undefined
   setSnackbarActivation: Dispatch<SnackbarActivation | undefined>
 }
@@ -22,7 +22,7 @@ export const Store = createContext<CheckListContextType>({
   checkListGroupByWeeks: [],
   setCheckListGroupByWeeks: (values: CheckListGroupByWeek[]) => {},
   checklistMode: ChecklistsMode.ModeCheck,
-  setChecklistMode: (value: ChecklistsMode) => {},
+  onChangeChecklistMode: (value: ChecklistsMode, handler?: () => {}) => {},
   snackBarActivation: undefined,
   setSnackbarActivation: (value: SnackbarActivation | undefined) => {},
 })
@@ -35,6 +35,13 @@ const StoreProvider = ({ children }: { children?: React.ReactNode }) => {
   const [checklistMode, setChecklistMode] = useState<ChecklistsMode>(
     ChecklistsMode.ModeCheck,
   )
+  const onChangeChecklistMode = (
+    value: ChecklistsMode,
+    handler?: () => void,
+  ) => {
+    handler && handler()
+    setChecklistMode(value)
+  }
   const [snackBarActivation, setSnackbarActivation] =
     useState<SnackbarActivation>()
   return (
@@ -45,7 +52,7 @@ const StoreProvider = ({ children }: { children?: React.ReactNode }) => {
         checkListGroupByWeeks,
         setCheckListGroupByWeeks,
         checklistMode,
-        setChecklistMode,
+        onChangeChecklistMode,
         snackBarActivation,
         setSnackbarActivation,
       }}>
