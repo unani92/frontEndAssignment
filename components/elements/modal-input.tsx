@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   KeyboardAvoidingView,
   Modal,
@@ -20,6 +20,24 @@ const modalInputStyle = StyleSheet.create({
   },
 })
 
+export const useModal = ({ defaultText }: { defaultText: string }) => {
+  const [modalOpen, setModalOpen] = useState(false)
+  const [text, setText] = useState(defaultText)
+  const openModal = useCallback(() => {
+    setModalOpen(true)
+  }, [])
+  const closeModal = useCallback((rollbackedText: string) => {
+    console.log(rollbackedText)
+    setText(rollbackedText)
+    setModalOpen(false)
+  }, [])
+  const saveTextBeforeClose = useCallback((text: string) => {
+    setText(text)
+    setModalOpen(false)
+  }, [])
+  return { modalOpen, openModal, closeModal, text, saveTextBeforeClose }
+}
+
 const ModalInput = ({
   open,
   closeModal,
@@ -31,20 +49,10 @@ const ModalInput = ({
   onSubmitText: (text: string) => void
   value: string
 }) => {
-  const [_text, setText] = useState(value)
-  // useEffect(() => {
-  //   const keyboardDidHideListener = Keyboard.addListener(
-  //     'keyboardDidHide',
-  //     () => {
-  //       console.log('keyboarddown')
-  //       setModalVisible(false)
-  //     },
-  //   )
-
-  //   return () => {
-  //     keyboardDidHideListener.remove()
-  //   }
-  // }, [])
+  const [_text, setText] = useState<string>(value)
+  useEffect(() => {
+    setText(value)
+  }, [open])
   return (
     <Modal visible={open} transparent animationType="slide">
       <TouchableOpacity style={{ flex: 1 }} onPress={closeModal}>
@@ -79,7 +87,7 @@ const ModalInput = ({
                 paddingVertical: 10,
                 paddingHorizontal: 16,
               }}
-              onSubmitEditing={() => onSubmitText(_text)}
+              onSubmitEditing={() => onSubmitText(_text || '')}
               showSoftInputOnFocus={true}
               value={_text}
               onChangeText={setText}
@@ -87,7 +95,7 @@ const ModalInput = ({
               autoFocus
             />
             <Pressable
-              onPress={() => onSubmitText(_text)}
+              onPress={() => onSubmitText(_text || '')}
               style={[
                 modalInputStyle.button,
                 flexShortcuts.justifyCenter,

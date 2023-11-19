@@ -11,6 +11,7 @@ import { MAX_WEEK } from '../lib/constants'
 import Progressbar from '../components/progressbar'
 import CheckListContents from '../components/checklist-contents'
 import Snackbar from '../components/elements/snackbar'
+import FAB from '../components/elements/FAB'
 
 const WindowHeight = Dimensions.get('window').height
 const HomeScreen = () => {
@@ -18,7 +19,7 @@ const HomeScreen = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : 'white',
   }
-  const { setCheckListGroupByWeeks, checklistMode } = useContext(Store)
+  const { setCheckListGroupByWeeks } = useContext(Store)
   const {
     data: res,
     isLoading,
@@ -49,9 +50,12 @@ const HomeScreen = () => {
       setCheckListGroupByWeeks(checkListsGroupByWeeks)
     }
   }, [res])
-
   return (
-    <View style={{ backgroundColor: 'white', height: WindowHeight }}>
+    <View
+      style={{
+        backgroundColor: 'white',
+        height: WindowHeight,
+      }}>
       <AppHeader isDarkMode={isDarkMode} label="Checklists" />
       <WeekCarouselComponent />
       <Progressbar />
@@ -61,6 +65,7 @@ const HomeScreen = () => {
         <CheckListContents />
       </ScrollView>
       <Snackbar />
+      <FAB />
     </View>
   )
 }

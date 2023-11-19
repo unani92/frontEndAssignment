@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from 'react-native'
-import ModalInput from '../elements/modal-input'
+import ModalInput, { useModal } from '../elements/modal-input'
 import { StyleSheet } from 'react-native'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { Store } from '../../lib/context/store'
@@ -31,17 +31,10 @@ const ItemText = ({
   onPressEdit: (item: CheckList) => void
 }) => {
   const { checklistMode } = useContext(Store)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [text, setText] = useState(checklistItem.data.content)
-  const openModal = useCallback(() => {
-    setModalOpen(true)
-  }, [])
-  const closeModal = useCallback(() => {
-    setModalOpen(false)
-  }, [])
+  const { modalOpen, openModal, closeModal, text, saveTextBeforeClose } =
+    useModal({ defaultText: checklistItem.data.content })
   const _onPressEdit = (item: CheckList, text: string) => {
-    setText(text)
-    closeModal()
+    saveTextBeforeClose(text)
     onPressEdit(item)
   }
   return (
@@ -70,7 +63,7 @@ const ItemText = ({
       <ModalInput
         value={text}
         open={modalOpen}
-        closeModal={closeModal}
+        closeModal={() => closeModal(checklistItem.data.content)}
         onSubmitText={text =>
           _onPressEdit(
             {

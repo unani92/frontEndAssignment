@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Store } from '../../lib/context/store'
 import ChecklistItem from './checklist-item'
