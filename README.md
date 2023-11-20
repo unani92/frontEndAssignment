@@ -13,7 +13,7 @@
 > 따라서 **노드와 루비 버전을 맞추고** 테스트 하시길 권장드립니다.
 
 ```bash
-// 홈브루를 통해 rbenv, cocaapods가 설치되어 있다고 전제함
+// 홈브루를 통해 rbenv, cocoapods가 설치되어 있다고 전제함
 
 $ rbenv version // 3.1.4
 $ nvm use
