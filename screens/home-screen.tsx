@@ -48,10 +48,8 @@ const HomeScreen = () => {
   }
   useEffect(() => {
     if (res && !isLoading && !isError) {
-      console.log(res)
       checkListGroupByWeeksFromData(res)
     } else if (isError) {
-      console.log(isError)
       const data = ChecklistSeeds as CheckListData[]
       checkListGroupByWeeksFromData(data)
     }
