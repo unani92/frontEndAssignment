@@ -12,6 +12,7 @@ import Progressbar from '../components/progressbar'
 import CheckListContents from '../components/checklist-contents'
 import Snackbar from '../components/elements/snackbar'
 import FAB from '../components/elements/FAB'
+import ChecklistSeeds from '../public/checklist_seeds.json'
 
 const WindowHeight = Dimensions.get('window').height
 const HomeScreen = () => {
@@ -25,31 +26,36 @@ const HomeScreen = () => {
     isLoading,
     isError,
   } = useQuery('queryCheckListsAll', HomeService.getAllCheckLists)
+  const checkListGroupByWeeksFromData = (data: CheckListData[]) => {
+    const checkListsGroupByWeeks: CheckListGroupByWeek[] = Array.from(
+      { length: MAX_WEEK },
+      (_, idx) => ({
+        weekNumber: idx + 1,
+        checkLists: [],
+      }),
+    )
+    const checkLists: CheckList[] = data.map((data, idx) => ({
+      id: idx + 1,
+      checked: Math.random() > 0.5 ? false : true,
+      data,
+    }))
+    checkLists.forEach(checkList => {
+      checkListsGroupByWeeks[checkList.data.weekNumber - 1].checkLists.push(
+        checkList,
+      )
+    })
+    setCheckListGroupByWeeks(checkListsGroupByWeeks)
+  }
   useEffect(() => {
     if (res && !isLoading && !isError) {
-      // 1. 1주부터 40주까지 주차가 추가되는 경우는 없다고 가정
-      // 2. 시간 순서대로 데이터 넘겨받는다고 가정
-      const checkListsGroupByWeeks: CheckListGroupByWeek[] = Array.from(
-        { length: MAX_WEEK },
-        (_, idx) => ({
-          weekNumber: idx + 1,
-          checkLists: [],
-        }),
-      )
-      const data = res.data as CheckListData[]
-      const checkLists: CheckList[] = data.map((data, idx) => ({
-        id: idx + 1,
-        checked: Math.random() > 0.5 ? false : true,
-        data,
-      }))
-      checkLists.forEach(checkList => {
-        checkListsGroupByWeeks[checkList.data.weekNumber - 1].checkLists.push(
-          checkList,
-        )
-      })
-      setCheckListGroupByWeeks(checkListsGroupByWeeks)
+      console.log(res)
+      checkListGroupByWeeksFromData(res)
+    } else if (isError) {
+      console.log(isError)
+      const data = ChecklistSeeds as CheckListData[]
+      checkListGroupByWeeksFromData(data)
     }
-  }, [res])
+  }, [res, isError, isLoading])
   return (
     <View
       style={{

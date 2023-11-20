@@ -100,11 +100,13 @@ const ChecklistItem = ({
           checklistItem={checklistItem}
         />
       </View>
-      <Pressable
-        onPress={() => !snackBarActivation && _onPressDelete(checklistItem)}
-        style={{ width: 24, height: 24 }}>
-        <SvgUri source={require('../../public/icon/delete.svg')} />
-      </Pressable>
+      {checklistMode === ChecklistsMode.ModeEdit && (
+        <Pressable
+          onPress={() => !snackBarActivation && _onPressDelete(checklistItem)}
+          style={{ width: 24, height: 24 }}>
+          <SvgUri source={require('../../public/icon/delete.svg')} />
+        </Pressable>
+      )}
     </Animated.View>
   )
 }
