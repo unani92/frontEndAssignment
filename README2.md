@@ -5,3 +5,7 @@ devtool 열기: `react-devtools`
 typescript 덕분에 러닝커브를 획기적으로 단축 가능 특히 style
 [키보드 관련 버그 수정](https://stackoverflow.com/questions/51606099/how-to-detect-when-keyboard-is-opened-or-closed-in-react-native)
 애니메이션 라이브러리 reanimated 사용해서 스와이프 방식의 카르셀 구현
+
+애니메이션 구현목록
+
+미해결과제

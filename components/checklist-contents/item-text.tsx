@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, Dimensions } from 'react-native'
 import ModalInput, { useModal } from '../elements/modal-input'
 import { StyleSheet } from 'react-native'
 import { useCallback, useContext, useEffect, useState } from 'react'
@@ -38,19 +38,9 @@ const ItemText = ({
     onPressEdit(item)
   }
   return (
-    <View style={{ maxWidth: '90%' }}>
-      {checklistMode === ChecklistsMode.ModeEdit ? (
-        <Text
-          style={[
-            { flexShrink: 0 },
-            checklistItem.checked
-              ? itemTextStyle.checked
-              : itemTextStyle.unChecked,
-          ]}>
-          {text}
-        </Text>
-      ) : (
-        <Pressable onPress={openModal}>
+    <View style={{ width: '100%' }}>
+      <View style={{ width: '80%' }}>
+        {checklistMode === ChecklistsMode.ModeEdit ? (
           <Text
             style={[
               { flexShrink: 0 },
@@ -60,8 +50,20 @@ const ItemText = ({
             ]}>
             {text}
           </Text>
-        </Pressable>
-      )}
+        ) : (
+          <Pressable onPress={openModal}>
+            <Text
+              style={[
+                { flexShrink: 0 },
+                checklistItem.checked
+                  ? itemTextStyle.checked
+                  : itemTextStyle.unChecked,
+              ]}>
+              {text}
+            </Text>
+          </Pressable>
+        )}
+      </View>
       <ModalInput
         value={text}
         open={modalOpen}
