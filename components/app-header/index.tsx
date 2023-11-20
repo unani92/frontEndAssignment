@@ -31,14 +31,6 @@ const AppHeader = ({
   label: string
 }) => {
   const { checklistMode, onChangeChecklistMode } = useContext(Store)
-  // const [text, setText] = useState('')
-  // const [modalVisible, setModalVisible] = useState(false)
-  // const openModal = useCallback(() => {
-  //   setModalVisible(true)
-  // }, [])
-  // const closeModal = useCallback(() => {
-  //   setModalVisible(false)
-  // }, [])
   const onPress = useCallback((mode: ChecklistsMode) => {
     onChangeChecklistMode(
       mode === ChecklistsMode.ModeCheck
@@ -68,15 +60,6 @@ const AppHeader = ({
           {checklistMode === ChecklistsMode.ModeCheck ? 'Edit' : 'Done'}
         </Text>
       </Pressable>
-      {/* <ModalInput
-        value={text}
-        open={modalVisible}
-        closeModal={closeModal}
-        onSubmitText={text => {
-          setText(text)
-          closeModal()
-        }}
-      /> */}
     </View>
   )
 }
