@@ -1,5 +1,3 @@
-## 휴먼스케이프 과제전형
-
 ![NodeJS](https://img.shields.io/badge/nodeJS-v.18.17.0-green.svg)<br>
 
 ![React-Native](https://img.shields.io/badge/react_native-v.0.72.6-blue)<br>
